@@ -13,6 +13,7 @@ import (
 // TODO this needs to be extended to support values for k larger than 11. This can be done in multiples of 11 by feeding the output from last round into the next. We can also take every 3rd bit and construct new hashes that way.
 func GetHashes(k uint64, data []byte) []uint64 {
 	sums := []uint64{}
+	data = Pad(data, 4)
 
 	md5Bytes := md5.Sum(data)
 	sums = append(sums, binary.LittleEndian.Uint64(md5Bytes[:]))
@@ -36,4 +37,14 @@ func GetHashes(k uint64, data []byte) []uint64 {
 	crc64Int := crc64.Checksum(data, crc64Table)
 	sums = append(sums, crc64Int)
 	return sums[:k]
+}
+
+func Pad(b []byte, length int) []byte {
+	remaining := length - len(b)
+
+	for i := 0; i < remaining; i++ {
+		b = append(b, byte(0))
+	}
+
+	return b
 }
