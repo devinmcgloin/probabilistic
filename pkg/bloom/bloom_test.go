@@ -19,7 +19,7 @@ func TestCardinality(t *testing.T) {
 
 func TestMembership(t *testing.T) {
 	b := New(6000000, 0.01)
-	urls := []string{"https://google.com", "https://devinmcgloin.com", "https://fok.al", "https://twitter.com", "https://facebook.com"}
+	urls := []string{"https://evil.com", "https://malicious.com", "https://malware.co", "https://twittter.co", "https://facebok.com"}
 	for _, url := range urls {
 		b.Add([]byte(url))
 	}
@@ -29,7 +29,7 @@ func TestMembership(t *testing.T) {
 		}
 	}
 
-	if b.Contains([]byte("https://bad.com")) {
+	if b.Contains([]byte("https://google.com")) {
 		t.Error()
 	}
 }
