@@ -50,7 +50,7 @@ func TestLowerBound(t *testing.T) {
 	}
 
 	actual := incorrectCount / 25000.0
-	if math.Abs(actual-lowerBound) > 0.001 {
+	if math.Abs(actual-lowerBound) > 0.01 {
 		t.Errorf("Expected lower bound exceeded. Expected %f Actual %f\n", lowerBound, actual)
 	}
 
