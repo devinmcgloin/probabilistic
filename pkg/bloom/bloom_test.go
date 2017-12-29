@@ -7,9 +7,6 @@ import (
 	"github.com/devinmcgloin/probabilistic/pkg/generator"
 )
 
-// TODO check to make sure no false negatives are possible
-// TODO simulate operation in order to check lower bound on false positives.
-
 func TestCardinality(t *testing.T) {
 	b := New(10, 0.01)
 	if b.EstimateSize() != 0 {
@@ -20,7 +17,6 @@ func TestCardinality(t *testing.T) {
 	if b.EstimateSize() == 0 {
 		t.Error()
 	}
-
 }
 
 func TestFalseNegatives(t *testing.T) {

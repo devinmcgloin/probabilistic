@@ -1,6 +1,7 @@
 package bloom
 
 import (
+	"errors"
 	"math"
 
 	"github.com/devinmcgloin/probabilistic/pkg/hashHelpers"
@@ -59,4 +60,30 @@ func (b Bloom) Contains(data []byte) bool {
 		}
 	}
 	return found
+}
+
+func Concat(a Bloom, b Bloom) (Bloom, error) {
+	if a.Buckets != b.Buckets {
+		return Bloom{}, errors.New("Unable to concatinate Bloom Filters of different Bucket Sizes")
+	}
+	min := func(a uint64, b uint64) uint64 {
+		if a < b {
+			return a
+		}
+		return b
+
+	}
+	hashFuncs := min(a.Hashes, b.Hashes)
+	c := Bloom{
+		Buckets: a.Buckets,
+		Hashes:  hashFuncs,
+		m:       make(map[uint64]bool, a.Buckets),
+	}
+
+	for i := uint64(0); i < a.Buckets; i++ {
+		if a.m[i] || b.m[i] {
+			c.m[i] = true
+		}
+	}
+	return c, nil
 }
