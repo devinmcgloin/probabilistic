@@ -1,9 +1,14 @@
 package hashHelpers
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/devinmcgloin/probabilistic/pkg/generator"
+)
 
 func TestUnique(t *testing.T) {
-	values := []string{"t", "s", "c", "sdsdjksd", "sdsdS", "sdsfsdfs", "hi2ounx"}
+	values := []string{"", "t", "s", "c", "sdsdjksd", "sdsdS", "sdsfsdfs", "hi2ounx"}
+	values = append(values, generator.RandomStrings(1500)...)
 
 	for _, v := range values {
 		for i := uint64(2); i < 12; i++ {

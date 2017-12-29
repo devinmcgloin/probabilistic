@@ -1,8 +1,14 @@
 package bloom
 
 import (
+	"math"
 	"testing"
+
+	"github.com/devinmcgloin/probabilistic/pkg/generator"
 )
+
+// TODO check to make sure no false negatives are possible
+// TODO simulate operation in order to check lower bound on false positives.
 
 func TestCardinality(t *testing.T) {
 	b := New(10, 0.01)
@@ -17,19 +23,39 @@ func TestCardinality(t *testing.T) {
 
 }
 
-func TestMembership(t *testing.T) {
-	b := New(6000000, 0.01)
-	urls := []string{"https://evil.com", "https://malicious.com", "https://malware.co", "https://twittter.co", "https://facebok.com"}
-	for _, url := range urls {
-		b.Add([]byte(url))
+func TestFalseNegatives(t *testing.T) {
+	b := New(500000, 0.01)
+	items := generator.RandomStrings(50000)
+	for _, s := range items {
+		b.Add([]byte(s))
 	}
-	for _, url := range urls {
-		if !b.Contains([]byte(url)) {
+	for _, s := range items {
+		if !b.Contains([]byte(s)) {
 			t.Error()
 		}
 	}
+}
 
-	if b.Contains([]byte("https://google.com")) {
-		t.Error()
+func TestLowerBound(t *testing.T) {
+	lowerBound := 0.01
+	b := New(50000, lowerBound)
+	members := generator.RandomStrings(50000)
+	falsePositives := generator.RandomStrings(25000)
+
+	for _, m := range members {
+		b.Add([]byte(m))
 	}
+
+	incorrectCount := 0.0
+	for _, f := range falsePositives {
+		if b.Contains([]byte(f)) {
+			incorrectCount += 1
+		}
+	}
+
+	actual := incorrectCount / 25000.0
+	if math.Abs(actual-lowerBound) > 0.001 {
+		t.Errorf("Expected lower bound exceeded. Expected %f Actual %f\n", lowerBound, actual)
+	}
+
 }
