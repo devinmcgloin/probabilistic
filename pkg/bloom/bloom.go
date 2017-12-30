@@ -11,7 +11,7 @@ import (
 type Bloom struct {
 	Hashes  uint64
 	Buckets uint64
-	m       map[uint64]bool
+	m       []bool
 }
 
 // OptimalBuckets calculates the optimal number of buckets given the number of elements expected and desired threshold for false positives.
@@ -34,7 +34,7 @@ func New(n uint64, p float64) Bloom {
 	return Bloom{
 		Hashes:  hashes,
 		Buckets: buckets,
-		m:       make(map[uint64]bool, buckets),
+		m:       make([]bool, buckets),
 	}
 }
 
@@ -88,7 +88,7 @@ func Concat(a Bloom, b Bloom) (Bloom, error) {
 	c := Bloom{
 		Buckets: a.Buckets,
 		Hashes:  hashFuncs,
-		m:       make(map[uint64]bool, a.Buckets),
+		m:       make([]bool, a.Buckets),
 	}
 
 	for i := uint64(0); i < a.Buckets; i++ {
