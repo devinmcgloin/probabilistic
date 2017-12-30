@@ -45,7 +45,7 @@ func TestLowerBound(t *testing.T) {
 	incorrectCount := 0.0
 	for _, f := range falsePositives {
 		if b.Contains([]byte(f)) {
-			incorrectCount += 1
+			incorrectCount++
 		}
 	}
 

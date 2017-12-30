@@ -7,21 +7,26 @@ import (
 	"github.com/devinmcgloin/probabilistic/pkg/hashHelpers"
 )
 
+// Bloom represents a Bloom filter, including the number of hash functions used and size of backing
 type Bloom struct {
 	Hashes  uint64
 	Buckets uint64
 	m       map[uint64]bool
 }
 
+// OptimalBuckets calculates the optimal number of buckets given the number of elements expected and desired threshold for false positives.
 func OptimalBuckets(n uint64, p float64) uint64 {
 	return uint64(-(float64(n) * math.Log(p)) / (math.Log(2) * math.Log(2)))
 }
 
+// OptimalHashFunctions determines the optimal number of hash functions to use for a desired
+// false positive rate.
 // See https://en.wikipedia.org/wiki/Bloom_filter#Optimal_number_of_hash_functions
 func OptimalHashFunctions(p float64) uint64 {
 	return uint64(-1.44 * math.Log2(p))
 }
 
+// New constructs a new Bloom filter
 func New(n uint64, p float64) Bloom {
 	buckets := OptimalBuckets(n, p)
 	hashes := OptimalHashFunctions(p)
@@ -33,6 +38,7 @@ func New(n uint64, p float64) Bloom {
 	}
 }
 
+// EstimateSize approximates the number of elements the filter has seen.
 func (b Bloom) EstimateSize() float64 {
 	x := 0.0
 	for _, v := range b.m {
@@ -44,6 +50,7 @@ func (b Bloom) EstimateSize() float64 {
 		math.Log(1.0-(x/float64(b.Buckets)))
 }
 
+// Add adds a []byte to the bloom filter.
 func (b Bloom) Add(data []byte) {
 	hashes := hashHelpers.GetHashes(b.Hashes, data)
 	for _, h := range hashes {
@@ -51,6 +58,7 @@ func (b Bloom) Add(data []byte) {
 	}
 }
 
+// Contains checks if the filter has seen the []byte array before
 func (b Bloom) Contains(data []byte) bool {
 	found := true
 	hashes := hashHelpers.GetHashes(b.Hashes, data)
@@ -62,6 +70,9 @@ func (b Bloom) Contains(data []byte) bool {
 	return found
 }
 
+// Concat concatinates two Bloom filters given that they have the same number of buckets.
+// If the number of hash functions used is different we choose the least number, this can
+// have an adverse effect on the false positive threshold.
 func Concat(a Bloom, b Bloom) (Bloom, error) {
 	if a.Buckets != b.Buckets {
 		return Bloom{}, errors.New("Unable to concatinate Bloom Filters of different Bucket Sizes")

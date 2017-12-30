@@ -25,6 +25,7 @@ func int63() int64 {
 	return v
 }
 
+// RandString constructs a pseudo random string of length n
 func RandString(n int) string {
 	b := make([]byte, n)
 	// A src.Int63() generates 63 random bits, enough for letterIdxMax characters!
@@ -43,8 +44,9 @@ func RandString(n int) string {
 	return string(b)
 }
 
-func GenerateSecureString(size int) (string, error) {
-	b, err := generateRandomBytes(size)
+// GenerateSecureString creates a cryptographically secure string of size n.
+func GenerateSecureString(n int) (string, error) {
+	b, err := generateRandomBytes(n)
 	return hex.EncodeToString(b), err
 }
 
@@ -58,6 +60,7 @@ func generateRandomBytes(n int) ([]byte, error) {
 	return b, nil
 }
 
+// RandomStrings generates n random strings of length 300
 func RandomStrings(n int) []string {
 	words := make([]string, n)
 	for i := 0; i < n; i++ {

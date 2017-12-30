@@ -10,6 +10,7 @@ import (
 	"hash/fnv"
 )
 
+// GetHashes returns uint64 hashes for a variety of hash functions. Currently k is limited to 11
 // TODO this needs to be extended to support values for k larger than 11. This can be done in multiples of 11 by feeding the output from last round into the next. We can also take every 3rd bit and construct new hashes that way.
 func GetHashes(k uint64, data []byte) []uint64 {
 	sums := []uint64{}
@@ -39,6 +40,7 @@ func GetHashes(k uint64, data []byte) []uint64 {
 	return sums[:k]
 }
 
+// Pad takes a byte array and right pads it with 0
 func Pad(b []byte, length int) []byte {
 	remaining := length - len(b)
 
