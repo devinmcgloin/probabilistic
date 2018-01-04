@@ -25,3 +25,29 @@ func TestUnique(t *testing.T) {
 	}
 
 }
+
+var hash []uint64
+
+func BenchmarkHash100(b *testing.B) {
+	BenchHash(100, b)
+}
+
+func BenchmarkHash500(b *testing.B) {
+	BenchHash(500, b)
+}
+func BenchmarkHash1500(b *testing.B) {
+	BenchHash(1500, b)
+}
+func BenchmarkHash5000(b *testing.B) {
+	BenchHash(5000, b)
+}
+func BenchHash(size int, b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		values := generator.RandomStrings(size)
+		var h []uint64
+		for _, v := range values {
+			h = GetHashes(11, []byte(v))
+		}
+		hash = h
+	}
+}
