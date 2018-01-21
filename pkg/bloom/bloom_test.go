@@ -1,11 +1,16 @@
 package bloom
 
 import (
+	"log"
 	"math"
+	"math/rand"
 	"testing"
+	"time"
 
 	"github.com/devinmcgloin/probabilistic/pkg/generator"
 )
+
+var r = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 func TestCardinality(t *testing.T) {
 	b := New(10, 0.01)
@@ -52,6 +57,41 @@ func TestLowerBound(t *testing.T) {
 	actual := incorrectCount / 25000.0
 	if math.Abs(actual-lowerBound) > 0.01 {
 		t.Errorf("Expected lower bound exceeded. Expected %f Actual %f\n", lowerBound, actual)
+	}
+}
+
+func TestConcat(t *testing.T) {
+
+	lowerBound := 0.01
+	a := New(50000, lowerBound)
+	b := New(50000, lowerBound)
+
+	members := generator.RandomStrings(30000)
+	falsePositives := generator.RandomStrings(25000)
+
+	for _, m := range members {
+		if r.NormFloat64() <= 0.5 {
+			a.Add([]byte(m))
+		} else {
+			b.Add([]byte(m))
+		}
+	}
+
+	c, err := Concat(a, b)
+	if err != nil {
+		log.Println(err)
+	}
+
+	incorrectCount := 0.0
+	for _, f := range falsePositives {
+		if c.Contains([]byte(f)) {
+			incorrectCount++
+		}
+	}
+
+	actual := incorrectCount / 25000.0
+	if math.Abs(actual-lowerBound) > 0.01 {
+		t.Errorf("Expected lower bound exceeded under concat. Expected %f Actual %f\n", lowerBound, actual)
 	}
 
 }
