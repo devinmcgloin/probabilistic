@@ -13,14 +13,23 @@ import (
 var r = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 func TestCardinality(t *testing.T) {
-	b := New(10, 0.01)
+	b := New(5000, 0.01)
 	if b.EstimateSize() != 0 {
 		t.Error()
 	}
 
 	b.Add([]byte("https://devinmcgloin.com"))
 	if b.EstimateSize() == 0 {
-		t.Error()
+		t.Errorf("expected estimate size to be %d got %f", 0, b.EstimateSize())
+	}
+
+	items := generator.RandomStrings(500)
+	for _, v := range items {
+		b.Add([]byte(v))
+	}
+
+	if math.Abs(b.EstimateSize()-501) > 10 {
+		t.Errorf("expected estimate size to be %d got %f", 501, b.EstimateSize())
 	}
 }
 
