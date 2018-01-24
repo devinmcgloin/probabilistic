@@ -75,7 +75,7 @@ func (b Bloom) Contains(data []byte) bool {
 // have an adverse effect on the false positive threshold.
 func Concat(a Bloom, b Bloom) (Bloom, error) {
 	if a.Buckets != b.Buckets {
-		return Bloom{}, errors.New("Unable to concatinate Bloom Filters of different Bucket Sizes")
+		return Bloom{}, errors.New("unable to concatenate Bloom Filters of different Bucket Sizes")
 	}
 	min := func(a uint64, b uint64) uint64 {
 		if a < b {
