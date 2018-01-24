@@ -6,7 +6,7 @@ import (
 	"github.com/devinmcgloin/probabilistic/pkg/generator"
 )
 
-func TestUnique(t *testing.T) {
+func TestMultiUnique(t *testing.T) {
 	values := []string{"", "t", "s", "c", "sdsdjksd", "sdsdS", "sdsfsdfs", "hi2ounx"}
 	values = append(values, generator.RandomStrings(1500)...)
 
@@ -23,7 +23,25 @@ func TestUnique(t *testing.T) {
 			}
 		}
 	}
+}
 
+func TestFNVUnique(t *testing.T) {
+	values := []string{"", "t", "s", "c", "sdsdjksd", "sdsdS", "sdsfsdfs", "hi2ounx"}
+	values = append(values, generator.RandomStrings(15000)...)
+
+	for _, v := range values {
+
+		unique := map[uint64]bool{}
+		for i := uint64(0); i < 100; i++ {
+			h := fnvBias([]byte(v), i)
+			if unique[h] {
+				t.Errorf("On input %v hash %v occurs with %d hash functions\n", v, h, i)
+			} else {
+				unique[h] = true
+			}
+
+		}
+	}
 }
 
 var hash []uint64

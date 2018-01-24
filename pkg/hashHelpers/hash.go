@@ -50,3 +50,20 @@ func Pad(b []byte, length int) []byte {
 
 	return b
 }
+
+func fnvBias(b []byte, bias uint64) uint64 {
+	var hash uint64
+	if bias != 0 {
+		hash = bias
+	} else {
+		hash = 0x01000193
+	}
+
+	for _, c := range b {
+		hash *= 0x01000193
+		hash ^= uint64(c)
+		hash &= 0xffffffff
+	}
+
+	return hash
+}
