@@ -8,16 +8,21 @@ import (
 
 func TestMultiUnique(t *testing.T) {
 	values := []string{"", "t", "s", "c", "sdsdjksd", "sdsdS", "sdsfsdfs", "hi2ounx"}
-	values = append(values, generator.RandomStrings(1000)...)
+	values = append(values, generator.RandomStrings(6000)...)
 
-	unique := map[uint64]bool{}
+	unique := map[uint64]int{}
 	for _, v := range values {
 		hashes := GetHashes(55, []byte(v))
 		for _, hash := range hashes {
-			if unique[hash] {
+			if unique[hash] == 2 {
 				t.Errorf("On input %v hash %v occurs with 55 hash functions\n", v, hash)
 			} else {
-				unique[hash] = true
+				v, ok := unique[hash]
+				if ok {
+					unique[hash] = v + 1
+				} else {
+					unique[hash] = 1
+				}
 			}
 		}
 	}
