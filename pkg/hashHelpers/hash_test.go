@@ -8,7 +8,7 @@ import (
 
 func TestMultiUnique(t *testing.T) {
 	values := []string{"", "t", "s", "c", "sdsdjksd", "sdsdS", "sdsfsdfs", "hi2ounx"}
-	values = append(values, generator.RandomStrings(1500)...)
+	values = append(values, generator.RandomStrings(1000)...)
 
 	unique := map[uint64]bool{}
 	for _, v := range values {
