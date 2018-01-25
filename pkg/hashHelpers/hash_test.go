@@ -10,16 +10,14 @@ func TestMultiUnique(t *testing.T) {
 	values := []string{"", "t", "s", "c", "sdsdjksd", "sdsdS", "sdsfsdfs", "hi2ounx"}
 	values = append(values, generator.RandomStrings(1500)...)
 
+	unique := map[uint64]bool{}
 	for _, v := range values {
-		for i := uint64(2); i < 12; i++ {
-			unique := map[uint64]bool{}
-			hashes := GetHashes(i, []byte(v))
-			for _, hash := range hashes {
-				if unique[hash] {
-					t.Errorf("On input %v hash %v occurs with %d hash functions\n", v, hashes, i)
-				} else {
-					unique[hash] = true
-				}
+		hashes := GetHashes(55, []byte(v))
+		for _, hash := range hashes {
+			if unique[hash] {
+				t.Errorf("On input %v hash %v occurs with 55 hash functions\n", v, hash)
+			} else {
+				unique[hash] = true
 			}
 		}
 	}
