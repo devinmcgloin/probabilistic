@@ -51,3 +51,9 @@ func (s Sketch) Count(x []byte) int {
 	}
 	return min
 }
+
+func (s Sketch) Stream(c <-chan []byte) {
+	for b := range c {
+		s.Increment(b)
+	}
+}

@@ -13,7 +13,7 @@ func TestCardinality(t *testing.T) {
 	url := []byte("https://devinmcgloin.com")
 	b.Increment(url)
 	if b.Count(url) == 0 {
-		t.Errorf("expected estimate size to be %d got %d\n", 1, b.Count(url))
+		t.Errorf("expected estimate count to be %d got %d\n", 1, b.Count(url))
 	}
 
 	items := generator.RandomStrings(500)
@@ -23,7 +23,7 @@ func TestCardinality(t *testing.T) {
 
 	for _, str := range items {
 		if b.Count([]byte(str)) < 1 {
-			t.Errorf("expected estimate size to be %d got %d\n", 1, b.Count([]byte(str)))
+			t.Errorf("expected estimate count to be %d got %d\n", 1, b.Count([]byte(str)))
 		}
 	}
 }
@@ -58,8 +58,8 @@ func TestLowerBound(t *testing.T) {
 		}
 	}
 
-	actual := incorrectCount / 25000.0
-	if math.Abs(actual-lowerBound) > (0.01 * 3000) {
+	actual := incorrectCount / 4000
+	if math.Abs(actual-lowerBound) > 0.1 {
 		t.Errorf("Expected lower bound exceeded. Expected %f Actual %f\n", lowerBound, actual)
 	}
 }
