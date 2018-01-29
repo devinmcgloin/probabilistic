@@ -7,12 +7,14 @@ import (
 	"github.com/devinmcgloin/probabilistic/pkg/hashHelpers"
 )
 
+// Sketch represents the data required for min sketch
 type Sketch struct {
 	b [][]int
 	w uint64
 	d uint64
 }
 
+// allocates an optimal sketch with eps and confidence parameters.
 func New(eps, confidence float64) Sketch {
 	w := uint64(math.Ceil(math.E / eps))
 	d := uint64(math.Ceil(math.Log(1 / confidence)))
@@ -30,13 +32,15 @@ func New(eps, confidence float64) Sketch {
 	}
 }
 
+// Increment adds x to the set of seen values
 func (s Sketch) Increment(x []byte) {
 	hashes := hashHelpers.GetHashes(s.d, x)
 	for i, hash := range hashes {
-		s.b[i][hash%s.w] += 1
+		s.b[i][hash%s.w]++
 	}
 }
 
+// Count checks how many times x has been seen in the past
 func (s Sketch) Count(x []byte) int {
 	min := 2 << 32
 	hashes := hashHelpers.GetHashes(s.d, x)
