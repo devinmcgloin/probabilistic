@@ -14,7 +14,7 @@ type Sketch struct {
 	d uint64
 }
 
-// allocates an optimal sketch with eps and confidence parameters.
+// New allocates an optimal sketch with eps and confidence parameters.
 func New(eps, confidence float64) Sketch {
 	w := uint64(math.Ceil(math.E / eps))
 	d := uint64(math.Ceil(math.Log(1 / confidence)))
