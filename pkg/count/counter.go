@@ -52,6 +52,9 @@ func (s Sketch) Count(x []byte) int {
 	return min
 }
 
+// Stream conusmes a channel of type []byte. This allows the Sketch
+// watch a data stream. Only returns when the channel closes. Should
+// be run in its own go routine.
 func (s Sketch) Stream(c <-chan []byte) {
 	for b := range c {
 		s.Increment(b)
