@@ -2,14 +2,10 @@ package count
 
 import (
 	"math"
-	"math/rand"
 	"testing"
-	"time"
 
 	"github.com/devinmcgloin/probabilistic/pkg/generator"
 )
-
-var r = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 func TestCardinality(t *testing.T) {
 	b := New(0.001, 0.001)
