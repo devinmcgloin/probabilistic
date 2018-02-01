@@ -19,7 +19,7 @@ func New(eps float64) MinHash {
 }
 
 func (mh MinHash) OptimalHashes(eps float64) uint64 {
-	return uint64(1 / eps * eps)
+	return uint64(1 / (eps * eps))
 }
 
 func (mh MinHash) ErrorRate() float64 {

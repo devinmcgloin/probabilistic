@@ -1,6 +1,7 @@
 package minhash
 
 import (
+	"log"
 	"math"
 	"testing"
 
@@ -8,17 +9,18 @@ import (
 )
 
 func TestJaccard(t *testing.T) {
-	a := generator.RandomStrings(500)
-	b := generator.RandomStrings(500)
+
+	mh := New(0.05)
+	log.Printf("hashes: %d ErrorRate: %f\n", mh.k, mh.ErrorRate())
+	a := generator.RandomStrings(5000)
+	b := generator.RandomStrings(5000)
 
 	naive := NaiveJaccard(a, b)
 
-	mh := New(0.01)
 	estimate := mh.Estimate(toInterface(a), toInterface(b))
 	if math.Abs(naive-estimate) > mh.ErrorRate() {
 		t.Error()
 	}
-
 }
 
 func toInterface(a []string) []interface{} {
