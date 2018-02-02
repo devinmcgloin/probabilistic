@@ -1,7 +1,6 @@
 package minhash
 
 import (
-	"log"
 	"math"
 	"testing"
 
@@ -11,7 +10,6 @@ import (
 func TestJaccard(t *testing.T) {
 
 	mh := New(0.05)
-	log.Printf("hashes: %d ErrorRate: %f\n", mh.k, mh.ErrorRate())
 	a := generator.RandomStrings(5000)
 	b := generator.RandomStrings(5000)
 

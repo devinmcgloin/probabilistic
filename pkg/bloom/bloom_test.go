@@ -1,7 +1,6 @@
 package bloom
 
 import (
-	"log"
 	"math"
 	"math/rand"
 	"testing"
@@ -88,7 +87,7 @@ func TestConcat(t *testing.T) {
 
 	c, err := Concat(a, b)
 	if err != nil {
-		log.Println(err)
+		t.Error("unexpected error while concatinating bloom filters")
 	}
 
 	incorrectCount := 0.0

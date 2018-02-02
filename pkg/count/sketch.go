@@ -1,7 +1,6 @@
-package count
+package sketch
 
 import (
-	"log"
 	"math"
 
 	"github.com/devinmcgloin/probabilistic/pkg/hashHelpers"
@@ -19,7 +18,6 @@ func New(eps, confidence float64) Sketch {
 	w := uint64(math.Ceil(math.E / eps))
 	d := uint64(math.Ceil(math.Log(1 / confidence)))
 
-	log.Printf("buckets: %d hashes: %d\n", w, d)
 	backing := make([][]int, d)
 	for i := range backing {
 		backing[i] = make([]int, w)

@@ -1,4 +1,4 @@
-package count
+package sketch
 
 import (
 	"math"
