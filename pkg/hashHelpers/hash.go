@@ -5,7 +5,7 @@ package hashHelpers
 func GetHashes(k uint64, data []byte) []uint64 {
 	hashes := []uint64{}
 	for i := uint64(0); i < k; i++ {
-		hashes = append(hashes, fnvBias(data, i))
+		hashes = append(hashes, FNVBias(data, i))
 	}
 	return hashes
 }
@@ -21,10 +21,10 @@ func Pad(b []byte, length int) []byte {
 	return b
 }
 
-// fnvHash with bias. Allows constructing unlimited number of hashes.
+// FNVBias with bias. Allows constructing unlimited number of hashes.
 // see: http://stevehanov.ca/blog/index.php?id=119
 // see: http://isthe.com/chongo/tech/comp/fnv/
-func fnvBias(b []byte, bias uint64) uint64 {
+func FNVBias(b []byte, bias uint64) uint64 {
 	var hash uint64
 	if bias != 0 {
 		hash = bias

@@ -36,7 +36,7 @@ func TestFNVUnique(t *testing.T) {
 
 		unique := map[uint64]bool{}
 		for i := uint64(0); i < 100; i++ {
-			h := fnvBias([]byte(v), i)
+			h := FNVBias([]byte(v), i)
 			if unique[h] {
 				t.Errorf("On input %v hash %v occurs with %d hash functions\n", v, h, i)
 			} else {
