@@ -21,7 +21,7 @@ func Pad(b []byte, length int) []byte {
 	return b
 }
 
-// fnvHash with bias. Allows constructing unlimited number of hashes.
+// FNVHash with bias. Allows constructing unlimited number of hashes.
 // see: http://stevehanov.ca/blog/index.php?id=119
 // see: http://isthe.com/chongo/tech/comp/fnv/
 func FNVBias(b []byte, bias uint64) uint64 {
