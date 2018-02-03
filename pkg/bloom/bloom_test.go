@@ -33,7 +33,7 @@ func TestCardinality(t *testing.T) {
 		}
 
 		if math.Abs(b.EstimateSize()-seen) > seen*0.01 {
-			t.Errorf("expected estimate size to be %d got %f", seen, b.EstimateSize())
+			t.Errorf("expected estimate size to be %f got %f", seen, b.EstimateSize())
 		}
 	}
 }

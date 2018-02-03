@@ -45,8 +45,7 @@ func (mh MinHash) Estimate(a []interface{}, b []interface{}) float64 {
 
 // hashMin calculates the min hash for a given an FNVHash with bias.
 func hashMin(a []interface{}, bias uint64) uint64 {
-	var min uint64
-	min = math.MaxUint64
+	var min uint64 = math.MaxUint64
 	for _, s := range a {
 		b, err := getBytes(s)
 		if err != nil {
