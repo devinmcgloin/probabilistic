@@ -4,7 +4,7 @@
 This Library implements Probabilistic Datastructures for Golang.
 
 ```
-go get https://github.com/devinmcgloin/probabilistic
+go get github.com/devinmcgloin/probabilistic
 ```
 
 ## Implementations
