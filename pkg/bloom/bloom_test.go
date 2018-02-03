@@ -12,7 +12,7 @@ import (
 var r = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 func TestCardinality(t *testing.T) {
-	b := New(5000, 0.01)
+	b := New(10000, 0.01)
 	if b.EstimateSize() != 0 {
 		t.Error()
 	}
@@ -22,13 +22,19 @@ func TestCardinality(t *testing.T) {
 		t.Errorf("expected estimate size to be %d got %f", 0, b.EstimateSize())
 	}
 
-	items := generator.RandomStrings(500)
-	for _, v := range items {
-		b.Add([]byte(v))
-	}
+	thresholds := []int{500, 1000, 3000, 5000}
+	seen := 1.0
 
-	if math.Abs(b.EstimateSize()-501) > 10 {
-		t.Errorf("expected estimate size to be %d got %f", 501, b.EstimateSize())
+	for _, threshold := range thresholds {
+		seen += float64(threshold)
+		items := generator.RandomStrings(threshold)
+		for _, v := range items {
+			b.Add([]byte(v))
+		}
+
+		if math.Abs(b.EstimateSize()-seen) > seen*0.01 {
+			t.Errorf("expected estimate size to be %d got %f", seen, b.EstimateSize())
+		}
 	}
 }
 
