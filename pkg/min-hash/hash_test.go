@@ -9,15 +9,17 @@ import (
 
 func TestJaccard(t *testing.T) {
 
-	mh := New(0.05)
-	a := generator.RandomStrings(5000)
-	b := generator.RandomStrings(5000)
+	for i := 0; i < 5; i++ {
+		mh := New(0.05)
+		a := generator.RandomStrings(5000)
+		b := generator.RandomStrings(5000)
 
-	naive := NaiveJaccard(a, b)
+		naive := NaiveJaccard(a, b)
 
-	estimate := mh.Estimate(toInterface(a), toInterface(b))
-	if math.Abs(naive-estimate) > mh.ErrorRate() {
-		t.Error()
+		estimate := mh.Estimate(toInterface(a), toInterface(b))
+		if math.Abs(naive-estimate) > mh.ErrorRate() {
+			t.Error()
+		}
 	}
 }
 
