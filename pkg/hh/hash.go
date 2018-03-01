@@ -1,4 +1,4 @@
-package hashHelpers
+package hh
 
 // GetHashes returns uint64 hashes for a variety of hash functions. Currently k is limited to 11
 // TODO this needs to be extended to support values for k larger than 11. This can be done in multiples of 11 by feeding the output from last round into the next. We can also take every 3rd bit and construct new hashes that way.

@@ -3,7 +3,7 @@ package sketch
 import (
 	"math"
 
-	"github.com/devinmcgloin/probabilistic/pkg/hashHelpers"
+	"github.com/devinmcgloin/probabilistic/pkg/hh"
 )
 
 // Sketch represents the data required for min sketch
@@ -32,7 +32,7 @@ func New(eps, confidence float64) Sketch {
 
 // Increment adds x to the set of seen values
 func (s Sketch) Increment(x []byte) {
-	hashes := hashHelpers.GetHashes(s.d, x)
+	hashes := hh.GetHashes(s.d, x)
 	for i, hash := range hashes {
 		s.b[i][hash%s.w]++
 	}
@@ -41,7 +41,7 @@ func (s Sketch) Increment(x []byte) {
 // Count checks how many times x has been seen in the past
 func (s Sketch) Count(x []byte) int {
 	min := 2 << 32
-	hashes := hashHelpers.GetHashes(s.d, x)
+	hashes := hh.GetHashes(s.d, x)
 	for i, hash := range hashes {
 		if min > s.b[i][hash%s.w] {
 			min = s.b[i][hash%s.w]

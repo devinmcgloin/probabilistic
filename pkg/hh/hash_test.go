@@ -1,4 +1,4 @@
-package hashHelpers
+package hh
 
 import (
 	"testing"

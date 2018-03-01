@@ -5,7 +5,7 @@ import (
 	"encoding/gob"
 	"math"
 
-	"github.com/devinmcgloin/probabilistic/pkg/hashHelpers"
+	"github.com/devinmcgloin/probabilistic/pkg/hh"
 )
 
 // MinHash includes all fields necessary to calculate the min hash between two sets.
@@ -51,7 +51,7 @@ func hashMin(a []interface{}, bias uint64) uint64 {
 		if err != nil {
 			continue
 		}
-		hash := hashHelpers.FNVBias(b, bias)
+		hash := hh.FNVBias(b, bias)
 		if hash < min {
 			min = hash
 		}

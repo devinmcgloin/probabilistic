@@ -4,7 +4,7 @@ import (
 	"errors"
 	"math"
 
-	"github.com/devinmcgloin/probabilistic/pkg/hashHelpers"
+	"github.com/devinmcgloin/probabilistic/pkg/hh"
 )
 
 // Bloom represents a Bloom filter, including the number of hash functions used and size of backing
@@ -52,7 +52,7 @@ func (b Bloom) EstimateSize() float64 {
 
 // Add adds a []byte to the bloom filter.
 func (b Bloom) Add(data []byte) {
-	hashes := hashHelpers.GetHashes(b.Hashes, data)
+	hashes := hh.GetHashes(b.Hashes, data)
 	for _, h := range hashes {
 		b.m[h%b.Buckets] = true
 	}
@@ -61,7 +61,7 @@ func (b Bloom) Add(data []byte) {
 // Contains checks if the filter has seen the []byte array before
 func (b Bloom) Contains(data []byte) bool {
 	found := true
-	hashes := hashHelpers.GetHashes(b.Hashes, data)
+	hashes := hh.GetHashes(b.Hashes, data)
 	for _, h := range hashes {
 		if !b.m[h%b.Buckets] {
 			found = false
