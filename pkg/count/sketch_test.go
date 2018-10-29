@@ -12,8 +12,13 @@ func TestCardinality(t *testing.T) {
 
 	url := []byte("https://devinmcgloin.com")
 	b.Increment(url)
-	if b.Count(url) == 0 {
+	if b.Count(url) != 1 {
 		t.Errorf("expected estimate count to be %d got %d\n", 1, b.Count(url))
+	}
+
+	b.Increment(url)
+	if b.Count(url) != 2 {
+		t.Errorf("expected estimate count to be %d got %d\n", 2, b.Count(url))
 	}
 
 	items := generator.RandomStrings(500)
