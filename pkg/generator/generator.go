@@ -68,3 +68,12 @@ func RandomStrings(n int) []string {
 	}
 	return words
 }
+
+// RandomSimilarStrings returns strings with some probabilistic overlap.
+func RandomSimilarStrings(n int, length int) []string {
+	words := make([]string, n)
+	for i := 0; i < n; i++ {
+		words[i] = RandString(length)
+	}
+	return words
+}

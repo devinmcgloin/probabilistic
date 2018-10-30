@@ -10,12 +10,15 @@ import (
 func TestJaccard(t *testing.T) {
 
 	mh := New(0.05)
-	a := generator.RandomStrings(5000)
-	b := generator.RandomStrings(5000)
+	a := generator.RandomSimilarStrings(5000, 3)
+	b := generator.RandomSimilarStrings(5000, 3)
 
 	naive := NaiveJaccard(a, b)
 
 	estimate := mh.Estimate(toInterface(a), toInterface(b))
+	if naive == 0 {
+		t.Error("naive calculated zero overlap")
+	}
 	if math.Abs(naive-estimate) > mh.ErrorRate() {
 		t.Error()
 	}
